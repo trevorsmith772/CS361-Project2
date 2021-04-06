@@ -6,22 +6,47 @@ import fa.State;
 import fa.dfa.DFA;
 
 public class NFA implements NFAInterface{
+    private Set<NFAState> totalStates; // Q
+    private NFAState initialState; // q0
+
+    public NFA(){
+        // TODO Constructor
+    }
 
     @Override
     public void addStartState(String name) {
-        // TODO Auto-generated method stub
+        NFAState s = checkIfExists(name);
+		if(s == null){
+			s = new NFAState(name);
+			addState(s.getName());
+		} else {
+			System.out.println("WARNING: A state with name " + name + " already exists in the NFA");
+		}
+		initialState = s;
         
     }
 
     @Override
     public void addState(String name) {
-        // TODO Auto-generated method stub
+        NFAState s = checkIfExists(name);
+		if( s == null){
+			s = new NFAState(name);
+			addState(s.getName());
+		} else {
+			System.out.println("WARNING: A state with name " + name + " already exists in the DFA");
+		}
         
     }
 
     @Override
     public void addFinalState(String name) {
-        // TODO Auto-generated method stub
+        NFAState s = checkIfExists(name);
+		if( s == null){
+			s = new NFAState(name);
+			addState(s.getName());
+		} else {
+			System.out.println("WARNING: A state with name " + name + " already exists in the DFA");
+		}
         
     }
 
@@ -72,5 +97,21 @@ public class NFA implements NFAInterface{
         // TODO Auto-generated method stub
         return null;
     }
+
+    /**
+	 * Check if a state with such name already exists
+	 * @param name
+	 * @return null if no state exist, or DFAState object otherwise.
+	 */
+	private NFAState checkIfExists(String name){
+		NFAState ret = null;
+		for(NFAState s : totalStates){
+			if(s.getName().equals(name)){
+				ret = s;
+				break;
+			}
+		}
+		return ret;
+	}
     
 }
