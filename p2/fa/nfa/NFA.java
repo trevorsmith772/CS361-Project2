@@ -1,12 +1,14 @@
 package fa.nfa;
 
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 import fa.State;
 import fa.dfa.DFA;
 
 public class NFA implements NFAInterface{
-    private Set<NFAState> totalStates; // Q
+    private LinkedHashSet<NFAState> nfaStates; 
+    private LinkedHashSet<Character> alphabet; // Q
     private NFAState initialState; // q0
 
     public NFA(){
@@ -19,16 +21,13 @@ public class NFA implements NFAInterface{
 		if(s == null){
 			s = new NFAState(name);
 			addState(s.getName());
-		} else {
-			System.out.println("WARNING: A state with name " + name + " already exists in the NFA");
 		}
 		initialState = s;
-        
     }
 
     @Override
     public void addState(String name) {
-        totalStates.add(new NFAState(name));
+        nfaStates.add(new NFAState(name));
     }
 
     @Override
@@ -98,7 +97,7 @@ public class NFA implements NFAInterface{
 	 */
 	private NFAState checkIfExists(String name){
 		NFAState ret = null;
-		for(NFAState s : totalStates){
+		for(NFAState s : nfaStates){
 			if(s.getName().equals(name)){
 				ret = s;
 				break;
