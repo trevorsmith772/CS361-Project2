@@ -28,14 +28,7 @@ public class NFA implements NFAInterface{
 
     @Override
     public void addState(String name) {
-        NFAState s = checkIfExists(name);
-		if( s == null){
-			s = new NFAState(name);
-			addState(s.getName());
-		} else {
-			System.out.println("WARNING: A state with name " + name + " already exists in the DFA");
-		}
-        
+        totalStates.add(new NFAState(name));
     }
 
     @Override
