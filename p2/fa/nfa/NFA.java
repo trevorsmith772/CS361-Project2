@@ -4,6 +4,7 @@ import java.util.Set;
 
 import fa.State;
 import fa.dfa.DFA;
+import fa.dfa.DFAState;
 
 public class NFA implements NFAInterface{
     private Set<NFAState> totalStates; // Q
@@ -45,7 +46,16 @@ public class NFA implements NFAInterface{
 
     @Override
     public void addTransition(String fromState, char onSymb, String toState) {
-        // TODO Auto-generated method stub
+        NFAState from = checkIfExists(fromState);
+        NFAState to = checkIfExists(toState);
+        if(from == null){
+            System.err.println("ERROR: No NFA state exists with name " + fromState);
+            System.exit(2);
+        }else if (to == null) {
+            System.err.println("ERROR: No DFA state exists with name " + toState);
+            System.exit(2);
+        }
+
         
     }
 
@@ -63,8 +73,7 @@ public class NFA implements NFAInterface{
 
     @Override
     public State getStartState() {
-        // TODO Auto-generated method stub
-        return null;
+        return initialState;
     }
 
     @Override
