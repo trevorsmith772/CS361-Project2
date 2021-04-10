@@ -5,7 +5,6 @@ import java.util.Set;
 
 import fa.State;
 import fa.dfa.DFA;
-import fa.dfa.DFAState;
 
 public class NFA implements NFAInterface{
     private LinkedHashSet<NFAState> nfaStates; 
@@ -60,14 +59,18 @@ public class NFA implements NFAInterface{
 
     @Override
     public Set<? extends State> getStates() {
-        // TODO Auto-generated method stub
-        return null;
+        return nfaStates;
     }
 
     @Override
     public Set<? extends State> getFinalStates() {
-        // TODO Auto-generated method stub
-        return null;
+        LinkedHashSet<NFAState> finalStates = new LinkedHashSet<>();
+        for(NFAState state : nfaStates){
+            if(state.isFinal()){
+                finalStates.add(state);
+            }
+        }
+        return finalStates;
     }
 
     @Override
