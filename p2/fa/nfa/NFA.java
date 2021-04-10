@@ -11,8 +11,13 @@ public class NFA implements NFAInterface{
     private LinkedHashSet<Character> alphabet; // Q
     private NFAState initialState; // q0
 
+    /**
+     * NFA Constructor
+     */
     public NFA(){
-        // TODO Constructor
+        alphabet = new LinkedHashSet<Character>();
+        nfaStates = new LinkedHashSet<NFAState>();
+        initialState = null;
     }
 
     @Override
@@ -115,6 +120,5 @@ public class NFA implements NFAInterface{
 			}
 		}
 		return ret;
-	}
-    
+	}   
 }
