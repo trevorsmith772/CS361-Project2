@@ -17,4 +17,13 @@ public class NFAState extends State{
         isFinal = false;
     }
 
+    public NFAState(String name, boolean isFinal){
+        this.name = name;
+        transitions = new LinkedHashMap<Character, Set<NFAState>>();
+        this.isFinal = isFinal;
+    }
+
+    public boolean isFinal(){
+        return isFinal;
+    }
 }
