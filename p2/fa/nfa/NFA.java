@@ -80,8 +80,7 @@ public class NFA implements NFAInterface{
 
     @Override
     public Set<Character> getABC() {
-        // TODO Auto-generated method stub
-        return null;
+        return alphabet;
     }
 
     @Override
