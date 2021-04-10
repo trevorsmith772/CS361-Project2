@@ -12,7 +12,8 @@ public class NFA implements NFAInterface{
     private NFAState initialState; // q0
 
     /**
-     * NFA Constructor
+     * NFA Constructor, initializes all 
+     * instance variables
      */
     public NFA(){
         alphabet = new LinkedHashSet<Character>();
