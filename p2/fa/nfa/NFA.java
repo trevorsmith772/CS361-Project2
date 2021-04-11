@@ -178,8 +178,15 @@ public class NFA implements NFAInterface{
         return dfa;
     }
 
-    private boolean containsFinalState(LinkedHashSet<NFAState> tmp2) {
-        return false; //TODO
+    private boolean containsFinalState(LinkedHashSet<NFAState> states) {
+        boolean contains = false;
+        for(NFAState state : states){
+            if(state.isFinal()){
+                contains = true;
+                break;
+            }
+        }
+        return contains;
     }
 
     /**
