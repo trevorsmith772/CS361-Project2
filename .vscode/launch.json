@@ -12,11 +12,43 @@
         },
         {
             "type": "java",
-            "name": "Launch NFADriver",
+            "name": "Test0",
             "request": "launch",
             "mainClass": "fa.nfa.NFADriver",
             "projectName": "CS361-Project2_98d18e29",
             "args": "p2/tests/p2tc0.txt"
+        },
+        {
+            "type": "java",
+            "name": "Test1",
+            "request": "launch",
+            "mainClass": "fa.nfa.NFADriver",
+            "projectName": "CS361-Project2_98d18e29",
+            "args": "p2/tests/p2tc1.txt"
+        },
+        {
+            "type": "java",
+            "name": "Test2",
+            "request": "launch",
+            "mainClass": "fa.nfa.NFADriver",
+            "projectName": "CS361-Project2_98d18e29",
+            "args": "p2/tests/p2tc2.txt"
+        },
+        {
+            "type": "java",
+            "name": "Test3",
+            "request": "launch",
+            "mainClass": "fa.nfa.NFADriver",
+            "projectName": "CS361-Project2_98d18e29",
+            "args": "p2/tests/p2tc3.txt"
         }
+        // {
+        //     "type": "java",
+        //     "name": "Test4",
+        //     "request": "launch",
+        //     "mainClass": "fa.nfa.NFADriver",
+        //     "projectName": "CS361-Project2_98d18e29",
+        //     "args": "p2/tests/p2tc4.txt"
+        // }
     ]
 }
