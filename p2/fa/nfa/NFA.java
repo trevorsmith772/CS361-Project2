@@ -31,12 +31,13 @@ public class NFA implements NFAInterface{
      * @param name - the name of the start state
      */
     public void addStartState(String name) {
-        NFAState s = checkIfExists(name);
-		if(s == null){
-			s = new NFAState(name);
-			addState(s.getName());
-		}
-		initialState = s;
+    	/* Check if state exists */
+        NFAState state = getState(name);
+        if(state == null){
+            state = new NFAState(name);
+            nfaStates.add(state);
+        }
+        initialState = state;
     }
 
     /**
@@ -65,17 +66,8 @@ public class NFA implements NFAInterface{
      * @param toState - the state being transitioned to
      */
     public void addTransition(String fromState, char onSymb, String toState) {
-        NFAState from = checkIfExists(fromState);
-        NFAState to = checkIfExists(toState);
-        if(from == null){
-            System.err.println("ERROR: No NFA state exists with name " + fromState);
-            System.exit(2);
-        }else if (to == null) {
-            System.err.println("ERROR: No DFA state exists with name " + toState);
-            System.exit(2);
-        }
-        from = getState(fromState);
-        to = getState(toState);
+        NFAState from = getState(fromState);
+        NFAState to = getState(toState);
         from.addTransition(onSymb,to);
         if(!alphabet.contains(onSymb) && onSymb != 'e'){
             alphabet.add(onSymb);
@@ -142,40 +134,40 @@ public class NFA implements NFAInterface{
      * @return an equivalent DFA
      */
     public DFA getDFA() {
-        /* Initialize method variables */
-        DFA dfa = new DFA();
-        Map<Set<NFAState>, String> passedStates = new LinkedHashMap<>();
-        Set<NFAState> states = eClosure(initialState);
-        LinkedList<Set<NFAState>> queue = new LinkedList<>();
-
-        passedStates.put(states, states.toString());
-        queue.add(states);
-        dfa.addStartState(passedStates.get(states));
-        while(!queue.isEmpty()){
-            states = queue.poll();
-            for(char c : alphabet){
-                LinkedHashSet<NFAState> tmp1 = new LinkedHashSet<>();
-                for(NFAState state : tmp1){
-                    tmp1.addAll(state.getTo(c));
-                }
-                LinkedHashSet<NFAState> tmp2 = new LinkedHashSet<>();
-                for(NFAState state : tmp1){
-                    tmp2.addAll(eClosure(state));
-                }
-                if(!passedStates.containsKey(tmp2)){
-                    passedStates.put(tmp2, tmp2.toString());
-                    queue.add(tmp2);
-                    if(containsFinalState(tmp2)){
-                        dfa.addFinalState(passedStates.get(tmp2));
+            /* Initialize method variables */
+            DFA dfa = new DFA();
+            Map<Set<NFAState>, String> passedStates = new LinkedHashMap<>();
+            Set<NFAState> states = eClosure(initialState);
+            LinkedList<Set<NFAState>> queue = new LinkedList<>();
+    
+            passedStates.put(states, states.toString());
+            queue.add(states);
+            dfa.addStartState(passedStates.get(states));
+            while(!queue.isEmpty()){
+                states = queue.poll();
+                for(char c : alphabet){
+                    LinkedHashSet<NFAState> tmp1 = new LinkedHashSet<>();
+                    for(NFAState state : states){
+                        tmp1.addAll(state.getTo(c));
                     }
-                    else {
-                        dfa.addState(passedStates.get(tmp2));
+                    LinkedHashSet<NFAState> tmp2 = new LinkedHashSet<>();
+                    for(NFAState state : tmp1){
+                        tmp2.addAll(eClosure(state));
                     }
+                    if(!passedStates.containsKey(tmp2)){
+                        passedStates.put(tmp2, tmp2.toString());
+                        queue.add(tmp2);
+                        if(containsFinalState(tmp2)){
+                            dfa.addFinalState(passedStates.get(tmp2));
+                        }
+                        else {
+                            dfa.addState(passedStates.get(tmp2));
+                        }
+                    }
+                    dfa.addTransition(passedStates.get(states), c, passedStates.get(tmp2));
                 }
-                dfa.addTransition(passedStates.get(states), c, passedStates.get(tmp2));
             }
-        }
-        return dfa;
+            return dfa;
     }
 
     private boolean containsFinalState(LinkedHashSet<NFAState> states) {
