@@ -39,22 +39,20 @@ public class NFA implements NFAInterface{
     /**
      * Adds a state to the NFA
      * @param name - the name of the state
-     *              being added
+     * being added
      */
     public void addState(String name) {
         nfaStates.add(new NFAState(name));
     }
 
-    @Override
+    /**
+     * Adds a final state to the NFA
+     * @param name - the name of the final 
+     * state to be added
+     */
     public void addFinalState(String name) {
-        NFAState s = checkIfExists(name);
-		if( s == null){
-			s = new NFAState(name);
-			addState(s.getName());
-		} else {
-			System.out.println("WARNING: A state with name " + name + " already exists in the DFA");
-		}
-        
+        NFAState state = new NFAState(name, true);
+        nfaStates.add(state);
     }
 
     /**
@@ -81,6 +79,12 @@ public class NFA implements NFAInterface{
         }
     }
 
+    /**
+     * Helper method to return a state object
+     *  given a state name
+     * @param stateName - the name of a state
+     * @return the corresponding state object
+     */
     private NFAState getState(String stateName){
         NFAState state = null;
         for(NFAState nfaState : nfaStates){
