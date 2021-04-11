@@ -1,0 +1,32 @@
+# Project 2: Nondeterministic Finite Automata
+
+* Author: Trevor Smith, Brandon Mattaini, Berto Cisneros
+* Class: CS 361, Section 1 (Trevor & Berto), Section 2 (Brandon)
+* Semester: Spring 2021
+
+
+## Overview
+
+This program is an implementation of a Nondeterministic finite automaton. The program takes in a file and reads the states, alphabet, and transitions, and determines whether specific input strings are valid or not.
+Additionally, this program computes an equivalent DFA to a NFA’s instance.
+
+## Compiling and Using
+
+In order to compile this program, make sure you are in the parent directory containing this README file. Once you are at this directory, run the command shown below to compile the whole package:
+
+javac fa/nfa/NFADriver.java
+
+Then to run the program, run the following command, where <input file> is the file (and filepath) that the program will run.
+
+java fa.nfa.NFADriver <input file>
+
+
+## Discussion
+
+This project overall was not too bad. I would say that implementing the search algorithms is where the most difficulty came from. Most of the project went very smoothly without any problems, but we had few issues that took more time to solve which are outlined below:
+
+Specifc details of what went wrong.
+
+## Testing
+
+For testing this project, we compiled and ran the NFADriver class with the 4 given test files to be able to compare our results. ###Additional testing
