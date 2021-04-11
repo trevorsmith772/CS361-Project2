@@ -155,16 +155,32 @@ public class NFA implements NFAInterface{
 
     /**
      * Searches for states that can be reached
-     *  from the start state with an empty string
+     *  from the start state with an empty string.
+     *  This method uses an internal depth-first
+     *  search.
      * @param s - the start state for the NFA
      * @return a set of NFA states that can be
      *  reached from the start state with epsilon
      */
     public Set<NFAState> eClosure(NFAState s) {
-        // TODO Auto-generated method stub
-        return null;
+        LinkedHashSet<NFAState> state = new LinkedHashSet<>();
+        return search(state, s);
     }
 
+    private Set<NFAState> search(LinkedHashSet<NFAState> fState, NFAState tState){
+        LinkedHashSet<NFAState> visitedStates = fState;
+        LinkedHashSet<NFAState> eClosureStates = new LinkedHashSet<>();
+
+        eClosureStates.add(tState);
+        if(!tState.getTo('e').isEmpty() && !visitedStates.contains(tState)){
+            visitedStates.add(tState);
+            for(NFAState nfaState : tState.getTo('e')){
+                eClosureStates.addAll(search(visitedStates, nfaState));
+            }
+        }
+        return eClosureStates;
+    }
+    
     /**
 	 * Check if a state with such name already exists
 	 * @param name
