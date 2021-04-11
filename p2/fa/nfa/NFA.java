@@ -60,7 +60,7 @@ public class NFA implements NFAInterface {
      * @param name - the name of the final state to be added
      */
     public void addFinalState(String name) {
-        NFAState state = new NFAState(name, true);
+        NFAState state = new NFAState(name, true); //Using alternate constructor
         nfaStates.add(state);
     }
 
@@ -72,10 +72,12 @@ public class NFA implements NFAInterface {
      * @param toState   - the state being transitioned to
      */
     public void addTransition(String fromState, char onSymb, String toState) {
+        /* Convert state strings to actual state objects */
         NFAState from = getState(fromState);
         NFAState to = getState(toState);
+
         from.addTransition(onSymb, to);
-        if (!alphabet.contains(onSymb) && onSymb != 'e') {
+        if (!alphabet.contains(onSymb) && onSymb != 'e') {  //Add symbol to alphabet if not already existing
             alphabet.add(onSymb);
         }
     }
@@ -148,16 +150,21 @@ public class NFA implements NFAInterface {
     public DFA getDFA() {
         /* Initialize method variables */
         DFA dfa = new DFA();
+        //keeps track of states that have already been passed
         Map<Set<NFAState>, String> passedStates = new LinkedHashMap<>();
+        //Get eclosure for start state
         Set<NFAState> states = eClosure(initialState);
+        //queue for BFS search
         LinkedList<Set<NFAState>> queue = new LinkedList<>();
 
         passedStates.put(states, states.toString());
         queue.add(states);
         dfa.addStartState(passedStates.get(states));
+
         while (!queue.isEmpty()) {
-            states = queue.poll();
-            for (char c : alphabet) {
+            states = queue.poll();  //retrieves and removes the head of the list
+            
+            for (char c : alphabet) { //explore each symbol transition for state
                 LinkedHashSet<NFAState> tmp1 = new LinkedHashSet<>();
                 for (NFAState state : states) {
                     tmp1.addAll(state.getTo(c));
@@ -175,6 +182,7 @@ public class NFA implements NFAInterface {
                         dfa.addState(passedStates.get(tmp2));
                     }
                 }
+                //add transition to dfa
                 dfa.addTransition(passedStates.get(states), c, passedStates.get(tmp2));
             }
         }
