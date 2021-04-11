@@ -130,7 +130,9 @@ public class NFA implements NFAInterface{
 
     /**
      * Computes an equivalent DFA for
-     * the given NFA and returns it.
+     * the given NFA and returns it. 
+     * Uses a breadth first search using
+     * a queue structure
      * @return an equivalent DFA
      */
     public DFA getDFA() {
@@ -170,6 +172,14 @@ public class NFA implements NFAInterface{
             return dfa;
     }
 
+    /** 
+     * Helper method to check if 
+     * a set of states contains a 
+     * final state
+     * @param states - the set of states to check
+     * @return a boolean whether or not the set
+     * contains a final state
+     */
     private boolean containsFinalState(LinkedHashSet<NFAState> states) {
         boolean contains = false;
         for(NFAState state : states){
@@ -223,20 +233,4 @@ public class NFA implements NFAInterface{
         }
         return eClosureStates;
     }
-    
-    /**
-	 * Check if a state with such name already exists
-	 * @param name
-	 * @return null if no state exist, or DFAState object otherwise.
-	 */
-	private NFAState checkIfExists(String name){
-		NFAState ret = null;
-		for(NFAState s : nfaStates){
-			if(s.getName().equals(name)){
-				ret = s;
-				break;
-			}
-		}
-		return ret;
-	}   
 }
