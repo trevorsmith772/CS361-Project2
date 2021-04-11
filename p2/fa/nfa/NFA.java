@@ -73,9 +73,24 @@ public class NFA implements NFAInterface{
             System.err.println("ERROR: No DFA state exists with name " + toState);
             System.exit(2);
         }
-        //TODO
+        from = getState(fromState);
+        to = getState(toState);
+        from.addTransition(onSymb,to);
+        if(!alphabet.contains(onSymb) && onSymb != 'e'){
+            alphabet.add(onSymb);
+        }
     }
 
+    private NFAState getState(String stateName){
+        NFAState state = null;
+        for(NFAState nfaState : nfaStates){
+            if(stateName.equals(nfaState.getName())){
+                state = nfaState;
+                break;
+            }
+        }
+        return state;
+    }
     /**
      * Getter for the states set
      * @return Set of NFA states
@@ -134,8 +149,8 @@ public class NFA implements NFAInterface{
      *  from the state on the character
      */
     public Set<NFAState> getToState(NFAState from, char onSymb) {
-        // TODO Auto-generated method stub
-        return null;
+        
+        return from.getTo(onSymb);
     }
 
     /**
