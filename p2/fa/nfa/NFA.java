@@ -1,6 +1,9 @@
 package fa.nfa;
 
+import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
+import java.util.LinkedList;
+import java.util.Map;
 import java.util.Set;
 
 import fa.State;
@@ -139,8 +142,44 @@ public class NFA implements NFAInterface{
      * @return an equivalent DFA
      */
     public DFA getDFA() {
-        // TODO Auto-generated method stub
-        return null;
+        /* Initialize method variables */
+        DFA dfa = new DFA();
+        Map<Set<NFAState>, String> passedStates = new LinkedHashMap<>();
+        Set<NFAState> states = eClosure(initialState);
+        LinkedList<Set<NFAState>> queue = new LinkedList<>();
+
+        passedStates.put(states, states.toString());
+        queue.add(states);
+        dfa.addStartState(passedStates.get(states));
+        while(!queue.isEmpty()){
+            states = queue.poll();
+            for(char c : alphabet){
+                LinkedHashSet<NFAState> tmp1 = new LinkedHashSet<>();
+                for(NFAState state : tmp1){
+                    tmp1.addAll(state.getTo(c));
+                }
+                LinkedHashSet<NFAState> tmp2 = new LinkedHashSet<>();
+                for(NFAState state : tmp1){
+                    tmp2.addAll(eClosure(state));
+                }
+                if(!passedStates.containsKey(tmp2)){
+                    passedStates.put(tmp2, tmp2.toString());
+                    queue.add(tmp2);
+                    if(containsFinalState(tmp2)){
+                        dfa.addFinalState(passedStates.get(tmp2));
+                    }
+                    else {
+                        dfa.addState(passedStates.get(tmp2));
+                    }
+                }
+                dfa.addTransition(passedStates.get(states), c, passedStates.get(tmp2));
+            }
+        }
+        return dfa;
+    }
+
+    private boolean containsFinalState(LinkedHashSet<NFAState> tmp2) {
+        return false; //TODO
     }
 
     /**
@@ -170,6 +209,7 @@ public class NFA implements NFAInterface{
         LinkedHashSet<NFAState> state = new LinkedHashSet<>();
         return search(state, s);
     }
+
 
     private Set<NFAState> search(LinkedHashSet<NFAState> fState, NFAState tState){
         LinkedHashSet<NFAState> visitedStates = fState;
